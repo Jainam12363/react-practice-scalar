@@ -1,4 +1,4 @@
-import React, {useState} from 'react'
+import React, {useEffect, useState} from 'react'
 
 function Counter() {
 
@@ -31,6 +31,27 @@ function Counter() {
         setFactor(factor-1);
     }
     
+
+    // 3)
+    // useEffect runs after every render
+    // component Mounting and component Updating
+    //look at title of the screen
+    //here effect runs after every element update
+
+    // useEffect(()=>{
+    //     console.log("use effect runs")
+    //     document.title = `Count is ${count}`
+    // })
+
+
+    //but by using dependency array we can control when to run the effect
+    //there is only component mounting and no component updating
+    useEffect(()=>{
+        console.log("use effect runs")
+        document.title = `Count is ${count}`
+    },[count]) // here effect runs only when count changes
+
+
   return (
     <div>
 

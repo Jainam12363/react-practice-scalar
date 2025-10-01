@@ -1,9 +1,13 @@
 import React from 'react'
 
-function MovieCard() {
+function MovieCard({poster_path, name}) {
   return (
-    <div className='h-[40vh] w-[170px] bg-center bg-cover rounded-xl hover:scale-110 duration-300 hover:cursor-pointer' style={{backgroundImage: "url(https://www.tallengestore.com/cdn/shop/products/Joker_-_Joaquin_Phoenix_-_Hollywood_Action_Movie_Poster_5f53d4b9-cdd9-41d5-9862-60897a0ed373.jpg?v=1573629444)"}}>
+    <div className='h-[40vh] w-[170px] bg-center bg-cover rounded-xl hover:scale-110 duration-300 hover:cursor-pointer relative' style={{backgroundImage: `url(https://image.tmdb.org/t/p/original${poster_path})`}}>
 
+
+      <div className='absolute bottom-0 left-0 right-0 text-white text-xl p-2 text-center bg-gray-900/60 rounded-b-xl'>
+        {name}
+      </div>
     </div>
   )
 }
