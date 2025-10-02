@@ -3,10 +3,25 @@ import MovieCard from './MovieCard'
 import axios from 'axios'
 import { useEffect } from 'react'
 import { useState } from 'react'
+import Pagination from './Pagination'
 
-function Movies() {
+function Movies({handleAddtoWatchlist, handleRemoveFromWatchlist, watchlist}) {
 
   const[movies,setMovies]=useState([])
+  const[pageNo,setPageNo]=useState(1)
+
+  const handlePrev=()=>{
+    if(pageNo==1){
+      setPageNo(pageNo)
+    }
+    else{
+      setPageNo(pageNo-1) 
+    }
+  }
+
+  const handleNext=()=>{
+    setPageNo(pageNo+1)
+  }
 
   /*
   This component fetches popular movies from The Movie Database (TMDB) API.
@@ -18,27 +33,24 @@ function Movies() {
 */
 
   useEffect(()=>{
-    axios.get('https://api.themoviedb.org/3/movie/popular?api_key=637f2224b0a97ab00c296240dabc3898&language=en-US&page=1').then((res)=>{ //this api is from themoviedb 
+    axios.get(`https://api.themoviedb.org/3/movie/popular?api_key=637f2224b0a97ab00c296240dabc3898&language=en-US&page=${pageNo}`).then((res)=>{ //this api is from themoviedb 
       console.log(res.data.results)
       setMovies(res.data.results) 
     })
-  },[])
+  },[pageNo])
 
   return (
     <div className='p-5'>
-        <div className='text-2xl font-bold text-center'>
+        <div className='text-2xl font-bold text-center mb-6'>
             Trending Movies
         </div>
-        <div className='flex flex-row flex-wrap justify-around gap-8'>
-            
-
+        <div className='flex flex-row flex-wrap justify-around gap-8'>   
             {movies.map((movieObj)=>{
-              return <MovieCard poster_path={movieObj.poster_path} name={movieObj.original_title}/>
-            })}
-            
-
-
+              return <MovieCard key={movieObj.id} movieObj={movieObj} poster_path={movieObj.poster_path} name={movieObj.original_title} handleAddtoWatchlist={handleAddtoWatchlist} handleRemoveFromWatchlist={handleRemoveFromWatchlist} watchlist={watchlist}/>
+            })}     
         </div>
+
+        <Pagination pageNo={pageNo} handlePrev={handlePrev} handleNext={handleNext}/>
     </div>
   )
 }
